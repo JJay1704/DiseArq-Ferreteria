@@ -1,0 +1,30 @@
+@model Ferreteria.Models.MetodoPago
+@{
+    ViewData["Title"] = "Eliminar";
+}
+<div class="container mt-4">
+    <h1>Eliminar Método de Pago</h1>
+    <div class="alert alert-danger mt-3">
+        ¿Estas seguro que deseas eliminar este Método de Pago?
+    </div>
+    <dl class="row">
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.IdMetPago)</dt>
+        <dd class="col-sm-9">@Model.IdMetPago</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Tipo)</dt>
+        <dd class="col-sm-9">@Model.Tipo</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Nombre)</dt>
+        <dd class="col-sm-9">@Model.Nombre</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Descripcion)</dt>
+        <dd class="col-sm-9">@Model.Descripcion</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Comision)</dt>
+        <dd class="col-sm-9">@Model.Comision</dd>
+    </dl>
+    <form asp-action="Eliminar" asp-route-id="@Model.IdMetPago" method="post">
+        <button type="submit" class="btn btn-danger">
+            Si, eliminar
+        </button>
+        <a asp-action="Index" class="btn btn-secondary">
+            Cancelar
+        </a>
+    </form>
+</div>
