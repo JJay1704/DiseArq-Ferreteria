@@ -1,0 +1,44 @@
+@model IEnumerable<Ferreteria.Models.Categoria>
+@{
+    ViewData["Title"] = "Categorías";
+}
+<div class="container mt-4">
+    <div class="d-flex justify-content-center align-content-center mb-3">
+        <h1>Listado de Categorías</h1>
+    </div>
+    <a asp-action="Crear" class="btn btn-primary">Nueva Categoria</a>
+    <hr />
+</div>
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        Todavia no hay categorías registradas
+    </div>
+}
+else
+{
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var categoria in Model)
+            {
+                <tr>
+                    <td>@categoria.IdCat</td>
+                    <td>@categoria.Nombre</td>
+                    <td>@categoria.Descr</td>
+                    <td>
+                        <a asp-action="Editar" asp-route-id="@categoria.IdCat" class="btn btn-warning btn-sm">Editar</a>
+                        <a asp-action="Eliminar" asp-route-id="@categoria.IdCat" class="btn btn-danger btn-sm">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

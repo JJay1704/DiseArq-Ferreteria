@@ -1,0 +1,26 @@
+@model Ferreteria.Models.Categoria
+@{
+    ViewData["Title"] = "Eliminar";
+}
+<div class="container mt-4">
+    <h1>Eliminar Categoría</h1>
+    <div class="alert alert-danger mt-3">
+        ¿Estas seguro que deseas eliminar esta Categoría?
+    </div>
+    <dl class="row">
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.IdCat)</dt>
+        <dd class="col-sm-9">@Model.IdCat</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Nombre)</dt>
+        <dd class="col-sm-9">@Model.Nombre</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Descr)</dt>
+        <dd class="col-sm-9">@Model.Descr</dd>
+    </dl>
+    <form asp-action="Eliminar" asp-route-id="@Model.IdCat" method="post">
+        <button type="submit" class="btn btn-danger">
+            Si, eliminar
+        </button>
+        <a asp-action="Index" class="btn btn-secondary">
+            Cancelar
+        </a>
+    </form>
+</div>
