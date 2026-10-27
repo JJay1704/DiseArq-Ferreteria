@@ -4,8 +4,6 @@ namespace Ferreteria.Models
 {
     public class TipoCliente
     {
-
-
         [Key]
         public int IdTpeCliente { get; set; }
 
@@ -14,7 +12,7 @@ namespace Ferreteria.Models
         public string Tipo { get; set; } = string.Empty;
 
         [StringLength(100)]
-        public string Descr { get; set; } = string.Empty;   
+        public string Descr { get; set; } = string.Empty;
 
         // Propiedad de navegación (Uno a Muchos)
         public virtual ICollection<Cliente> Clientes { get; set; } = new List<Cliente>();
