@@ -1,10 +1,12 @@
 using Ferreteria.Data;
 using Ferreteria.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ferreteria.Controllers
 {
+    [Authorize(Roles = "Administrador")]
     public class MetodoPagoController : Controller
     {
         private readonly AppData _appData;

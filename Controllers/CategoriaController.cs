@@ -1,13 +1,16 @@
 using Ferreteria.Data;
 using Ferreteria.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ferreteria.Controllers
 {
+    [Authorize(Roles = "Administrador,Responsable de almacén")]
     public class CategoriaController : Controller
     {
         private readonly AppData _appData;
+
         public CategoriaController(AppData appData)
         {
             _appData = appData;
