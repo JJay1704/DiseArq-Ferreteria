@@ -1,0 +1,50 @@
+@model Ferreteria.Models.Venta
+
+@using Ferreteria.States
+@{
+    ViewData["Title"] = "Crear venta";
+}
+
+<h1>Crear venta</h1>
+
+<h4>Venta</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdCliente" class="control-label"></label>
+                <select asp-for="IdCliente" class ="form-control" asp-items="ViewBag.IdCliente"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdEmpleado" class="control-label"></label>
+                <select asp-for="IdEmpleado" class ="form-control" asp-items="ViewBag.IdEmpleado"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdMetodoPago" class="control-label"></label>
+                <select asp-for="IdMetodoPago" class ="form-control" asp-items="ViewBag.IdMetodoPago"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Total" class="control-label"></label>
+                <input asp-for="Total" class="form-control" />
+                <span asp-validation-for="Total" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Estado inicial</label>
+                <input class="form-control" value="@EstadoVenta.Pendiente" readonly />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Crear" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Volver a ventas</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
