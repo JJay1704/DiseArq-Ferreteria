@@ -1,4 +1,6 @@
 using Ferreteria.Data;
+using Ferreteria.Repositories;
+using Ferreteria.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
@@ -10,6 +12,11 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppData>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Ferreteria")));
 
+// Repositorios y servicios
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<PasswordService>();
+
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -20,13 +27,16 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 {
-    options.LoginPath = "";
-    options.AccessDeniedPath = "";
+    options.LoginPath = "/Usuario/Login";
+    options.AccessDeniedPath = "/Usuario/AccesoDenegado";
     options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
     options.SlidingExpiration = true;
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -45,7 +55,7 @@ app.UseAuthentication();
 
 app.Use(async (context, next) =>
 {
-    if(context.User.Identity?.IsAuthenticated == true)
+    if (context.User.Identity?.IsAuthenticated == true)
     {
         context.Response.Headers.CacheControl = "no-cache, no-store, must-revalidate";
         context.Response.Headers.Pragma = "no-cache";
@@ -63,6 +73,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
-
 
 app.Run();

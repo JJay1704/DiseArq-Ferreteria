@@ -305,6 +305,52 @@ namespace Ferreteria.Migrations
                     b.ToTable("Producto", (string)null);
                 });
 
+            modelBuilder.Entity("Ferreteria.Models.Rol", b =>
+                {
+                    b.Property<int>("IdRol")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdRol"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("NombreRol")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("IdRol");
+
+                    b.HasIndex("NombreRol")
+                        .IsUnique();
+
+                    b.ToTable("Rol", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            IdRol = 1,
+                            Descripcion = "Administración y gestión del sistema",
+                            NombreRol = "Administrador"
+                        },
+                        new
+                        {
+                            IdRol = 2,
+                            Descripcion = "Gestión de inventario y almacén",
+                            NombreRol = "Responsable de almacén"
+                        },
+                        new
+                        {
+                            IdRol = 3,
+                            Descripcion = "Gestión de ventas y atención al cliente",
+                            NombreRol = "Vendedor"
+                        });
+                });
+
             modelBuilder.Entity("Ferreteria.Models.TipoCliente", b =>
                 {
                     b.Property<int>("IdTpeCliente")
@@ -326,6 +372,46 @@ namespace Ferreteria.Migrations
                     b.HasKey("IdTpeCliente");
 
                     b.ToTable("TipoCliente", (string)null);
+                });
+
+            modelBuilder.Entity("Ferreteria.Models.Usuario", b =>
+                {
+                    b.Property<int>("IdUsuario")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdUsuario"));
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Correo")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<int>("IdEmpleado")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdRol")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("IdUsuario");
+
+                    b.HasIndex("Correo")
+                        .IsUnique();
+
+                    b.HasIndex("IdEmpleado")
+                        .IsUnique();
+
+                    b.HasIndex("IdRol");
+
+                    b.ToTable("Usuario", (string)null);
                 });
 
             modelBuilder.Entity("Ferreteria.Models.Venta", b =>
@@ -415,6 +501,25 @@ namespace Ferreteria.Migrations
                     b.Navigation("Marc");
                 });
 
+            modelBuilder.Entity("Ferreteria.Models.Usuario", b =>
+                {
+                    b.HasOne("Ferreteria.Models.Empleado", "Empleado")
+                        .WithOne()
+                        .HasForeignKey("Ferreteria.Models.Usuario", "IdEmpleado")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Ferreteria.Models.Rol", "Rol")
+                        .WithMany("Usuarios")
+                        .HasForeignKey("IdRol")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Empleado");
+
+                    b.Navigation("Rol");
+                });
+
             modelBuilder.Entity("Ferreteria.Models.Venta", b =>
                 {
                     b.HasOne("Ferreteria.Models.Cliente", "Cliente")
@@ -465,6 +570,11 @@ namespace Ferreteria.Migrations
             modelBuilder.Entity("Ferreteria.Models.MetodoPago", b =>
                 {
                     b.Navigation("Ventas");
+                });
+
+            modelBuilder.Entity("Ferreteria.Models.Rol", b =>
+                {
+                    b.Navigation("Usuarios");
                 });
 
             modelBuilder.Entity("Ferreteria.Models.TipoCliente", b =>

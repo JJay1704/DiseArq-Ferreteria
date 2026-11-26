@@ -1,4 +1,4 @@
-﻿using Ferreteria.Models;
+using Ferreteria.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ferreteria.Data
@@ -16,6 +16,8 @@ namespace Ferreteria.Data
         public DbSet<Producto> Productos { get; set; }
         public DbSet<Venta> Ventas { get; set; }
         public DbSet<DetVenta> DetallesVenta { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Rol> Roles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -31,6 +33,8 @@ namespace Ferreteria.Data
             modelBuilder.Entity<Producto>().ToTable("Producto").HasKey(p => p.IdProducto);
             modelBuilder.Entity<Venta>().ToTable("Venta").HasKey(v => v.IdVenta);
             modelBuilder.Entity<DetVenta>().ToTable("DetVent").HasKey(dv => dv.IdDetVent);
+            modelBuilder.Entity<Usuario>().ToTable("Usuario").HasKey(u => u.IdUsuario);
+            modelBuilder.Entity<Rol>().ToTable("Rol").HasKey(r => r.IdRol);
             #endregion
 
             #region Relaciones de Cliente y TipoCliente
@@ -92,7 +96,6 @@ namespace Ferreteria.Data
                 .Property(v => v.Total)
                 .HasPrecision(10, 2);
 
-            // Forzar a SQL Server que use GETDATE() si el objeto va sin fecha
             modelBuilder.Entity<Venta>()
                 .Property(v => v.Fecha)
                 .HasDefaultValueSql("GETDATE()");
@@ -114,6 +117,51 @@ namespace Ferreteria.Data
             modelBuilder.Entity<DetVenta>().Property(dv => dv.Cant).HasPrecision(10, 2);
             modelBuilder.Entity<DetVenta>().Property(dv => dv.PrecUnit).HasPrecision(10, 2);
             modelBuilder.Entity<DetVenta>().Property(dv => dv.Descuento).HasPrecision(10, 2);
+            #endregion
+
+            #region Relaciones de Usuario (Rol y Empleado)
+            modelBuilder.Entity<Usuario>()
+                .HasOne(u => u.Rol)
+                .WithMany(r => r.Usuarios)
+                .HasForeignKey(u => u.IdRol)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Usuario>()
+                .HasOne(u => u.Empleado)
+                .WithOne()
+                .HasForeignKey<Usuario>(u => u.IdEmpleado)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Usuario>()
+                .HasIndex(u => u.Correo)
+                .IsUnique();
+
+            modelBuilder.Entity<Rol>()
+                .HasIndex(r => r.NombreRol)
+                .IsUnique();
+            #endregion
+
+            #region Datos Iniciales de Roles
+            modelBuilder.Entity<Rol>().HasData(
+                new Rol
+                {
+                    IdRol = 1,
+                    NombreRol = "Administrador",
+                    Descripcion = "Administración y gestión del sistema"
+                },
+                new Rol
+                {
+                    IdRol = 2,
+                    NombreRol = "Responsable de almacén",
+                    Descripcion = "Gestión de inventario y almacén"
+                },
+                new Rol
+                {
+                    IdRol = 3,
+                    NombreRol = "Vendedor",
+                    Descripcion = "Gestión de ventas y atención al cliente"
+                }
+            );
             #endregion
         }
     }

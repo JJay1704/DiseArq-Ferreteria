@@ -1,0 +1,84 @@
+﻿@model Ferreteria.ViewModels.LoginVM
+
+@{
+    ViewData["Title"] = "Iniciar sesión";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header bg-dark text-white text-center">
+                    <h3 class="mb-0">Ferretería</h3>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <h4 class="text-center mb-4">
+                        Iniciar sesión
+                    </h4>
+
+                    <form asp-controller="Usuario"
+                          asp-action="Login"
+                          method="post">
+
+                        <input type="hidden" asp-for="ReturnUrl" />
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Correo"
+                                   class="form-label"></label>
+
+                            <input asp-for="Correo"
+                                   class="form-control"
+                                   placeholder="Ingrese su correo"
+                                   autocomplete="username" />
+
+                            <span asp-validation-for="Correo"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Password"
+                                   class="form-label"></label>
+
+                            <input asp-for="Password"
+                                   class="form-control"
+                                   placeholder="Ingrese su contraseña"
+                                   autocomplete="current-password" />
+
+                            <span asp-validation-for="Password"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit"
+                                    class="btn btn-dark">
+                                Ingresar
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <div class="card-footer text-center text-muted">
+                    Sistema de gestión de ferretería
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

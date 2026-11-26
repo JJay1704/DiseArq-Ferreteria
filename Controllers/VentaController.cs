@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ using StateMachine.Core;
 
 namespace Ferreteria.Controllers
 {
+    [Authorize(Roles = "Administrador,Vendedor")]
     public class VentaController : Controller
     {
         private readonly AppData _context;
