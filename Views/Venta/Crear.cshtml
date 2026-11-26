@@ -1,0 +1,54 @@
+@model Ferreteria.Models.Venta
+
+@using Ferreteria.States
+@{
+    ViewData["Title"] = "Nueva Venta";
+}
+
+<div class="container mt-4">
+    <h1>Registro de Ventas</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Crear" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <div class="mb-3">
+                    <label asp-for="IdCliente" class="form-label">Cliente</label>
+                    <select asp-for="IdCliente" class="form-select" asp-items="ViewBag.IdCliente">
+                        <option value="">Seleccione un cliente</option>
+                    </select>
+                    <span asp-validation-for="IdCliente" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="IdEmpleado" class="form-label">Empleado</label>
+                    <select asp-for="IdEmpleado" class="form-select" asp-items="ViewBag.IdEmpleado">
+                        <option value="">Seleccione un empleado</option>
+                    </select>
+                    <span asp-validation-for="IdEmpleado" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="IdMetodoPago" class="form-label">Método de pago</label>
+                    <select asp-for="IdMetodoPago" class="form-select" asp-items="ViewBag.IdMetodoPago">
+                        <option value="">Seleccione un método de pago</option>
+                    </select>
+                    <span asp-validation-for="IdMetodoPago" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Total" class="form-label">Total</label>
+                    <input asp-for="Total" class="form-control" />
+                    <span asp-validation-for="Total" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Estado inicial</label>
+                    <input class="form-control" value="@EstadoVenta.Pendiente" readonly />
+                </div>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a asp-action="Index" class="btn btn-secondary">Volver</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

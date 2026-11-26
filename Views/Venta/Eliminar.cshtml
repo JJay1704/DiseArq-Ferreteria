@@ -1,0 +1,33 @@
+@model Ferreteria.Models.Venta
+@using Ferreteria.States
+
+@{
+    ViewData["Title"] = "Eliminar Venta";
+}
+
+<div class="container mt-4">
+    <h1>Eliminar Venta</h1>
+    <div class="alert alert-danger mt-3">
+        ¿Estás seguro de que deseas eliminar esta venta?
+    </div>
+    <dl class="row">
+        <dt class="col-sm-3">ID</dt>
+        <dd class="col-sm-9">@Model.IdVenta</dd>
+        <dt class="col-sm-3">Fecha</dt>
+        <dd class="col-sm-9">@Model.Fecha.ToString("dd/MM/yyyy HH:mm")</dd>
+        <dt class="col-sm-3">Cliente</dt>
+        <dd class="col-sm-9">@Model.Cliente.Nombres</dd>
+        <dt class="col-sm-3">Empleado</dt>
+        <dd class="col-sm-9">@Model.Empleado.Nombres</dd>
+        <dt class="col-sm-3">Método de pago</dt>
+        <dd class="col-sm-9">@Model.MetodoPago.Nombre</dd>
+        <dt class="col-sm-3">Total</dt>
+        <dd class="col-sm-9">@Model.Total.ToString("C")</dd>
+        <dt class="col-sm-3">Estado</dt>
+        <dd class="col-sm-9">@(Enum.IsDefined(typeof(EstadoVenta), Model.Estado) ? ((EstadoVenta)Model.Estado).ToString() : Model.Estado.ToString())</dd>
+    </dl>
+    <form asp-action="Eliminar" asp-route-id="@Model.IdVenta" method="post">
+        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

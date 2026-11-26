@@ -28,7 +28,7 @@ namespace Ferreteria.Controllers
             return View(await appData.ToListAsync());
         }
 
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Detalles(int? id)
         {
             if (id == null)
             {
@@ -48,7 +48,7 @@ namespace Ferreteria.Controllers
             return View(venta);
         }
 
-        public IActionResult Create()
+        public IActionResult Crear()
         {
             var venta = new Venta { Estado = (int)EstadoVenta.Pendiente };
             PopulateLookups(venta, incluirTransiciones: false);
@@ -57,7 +57,7 @@ namespace Ferreteria.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdVenta,Fecha,IdCliente,IdEmpleado,IdMetodoPago,Total,Estado")] Venta venta)
+        public async Task<IActionResult> Crear([Bind("IdVenta,Fecha,IdCliente,IdEmpleado,IdMetodoPago,Total,Estado")] Venta venta)
         {
             if (ModelState.IsValid)
             {
@@ -70,7 +70,7 @@ namespace Ferreteria.Controllers
             return View(venta);
         }
 
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Editar(int? id)
         {
             if (id == null)
             {
@@ -88,7 +88,7 @@ namespace Ferreteria.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdVenta,Fecha,IdCliente,IdEmpleado,IdMetodoPago,Total,Estado")] Venta venta)
+        public async Task<IActionResult> Editar(int id, [Bind("IdVenta,Fecha,IdCliente,IdEmpleado,IdMetodoPago,Total,Estado")] Venta venta)
         {
             if (id != venta.IdVenta)
             {
@@ -127,7 +127,7 @@ namespace Ferreteria.Controllers
             return View(venta);
         }
 
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Eliminar(int? id)
         {
             if (id == null)
             {
@@ -147,7 +147,7 @@ namespace Ferreteria.Controllers
             return View(venta);
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("Eliminar")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
